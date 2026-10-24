@@ -1,131 +1,174 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>選擇攻略｜特戰英豪 Line-up</title>
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background-color: #111820;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+```
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: #111820;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
 
-        h1 {
-            padding-top: 25px;
-            font-size: 34px;
-        }
+    h1 {
+        padding-top: 25px;
+        font-size: 34px;
+    }
 
-        .目前選擇 {
-            color: #ff4655;
-            font-size: 18px;
-            margin: 10px;
-        }
+    .目前選擇 {
+        color: #ff4655;
+        font-size: 18px;
+        margin: 10px;
+    }
 
-        .說明 {
-            color: #aab3bd;
-            margin-bottom: 15px;
-        }
+    .說明 {
+        color: #aab3bd;
+        margin-bottom: 15px;
+    }
 
+    .攻略列表 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 240px));
+        justify-content: center;
+        align-items: start;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .攻略欄位 {
+        min-width: 0;
+    }
+
+    .攻略欄位 h2 {
+        color: #ff4655;
+        font-size: 23px;
+        margin: 10px 0 20px;
+    }
+
+    .攻略按鈕 {
+        padding: 20px 12px;
+        background-color: #202b36;
+        border: 2px solid #394653;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+        overflow-wrap: anywhere;
+    }
+
+    .攻略按鈕:hover {
+        border-color: #ff4655;
+        transform: translateY(-4px);
+    }
+
+    .沒有資料 {
+        color: #aab3bd;
+        grid-column: 1 / -1;
+    }
+
+    .返回按鈕 {
+        margin: 15px 8px 30px;
+        padding: 12px 25px;
+        background-color: #ff4655;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .返回按鈕:hover {
+        background-color: #d93645;
+    }
+
+    .次要按鈕 {
+        background-color: transparent;
+        border: 1px solid #596570;
+    }
+
+    .次要按鈕:hover {
+        background-color: #202b36;
+    }
+
+    @media (max-width: 600px) {
         .攻略列表 {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 240px));
-            justify-content: center;
-            gap: 15px;
-            padding: 15px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .攻略欄位 h2 {
+            font-size: 18px;
         }
 
         .攻略按鈕 {
-            padding: 20px 12px;
-            background-color: #202b36;
-            border: 2px solid #394653;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.2s;
+            padding: 12px 5px;
+            font-size: 14px;
         }
+    }
+</style>
+```
 
-        .攻略按鈕:hover {
-            border-color: #ff4655;
-            transform: translateY(-4px);
-        }
-
-        .沒有資料 {
-            color: #aab3bd;
-        }
-
-        .返回按鈕 {
-            margin: 15px 8px 30px;
-            padding: 12px 25px;
-            background-color: #ff4655;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .返回按鈕:hover {
-            background-color: #d93645;
-        }
-
-        .次要按鈕 {
-            background-color: transparent;
-            border: 1px solid #596570;
-        }
-
-        .次要按鈕:hover {
-            background-color: #202b36;
-        }
-    </style>
 </head>
 
 <body>
 
-    <h1>點位選擇頁面</h1>
+```
+<h1>點位選擇頁面</h1>
 
-    <div class="目前選擇" id="目前選擇"></div>
+<div class="目前選擇" id="目前選擇"></div>
 
-    <p class="說明">選擇想查看的攻略</p>
+<p class="說明">點位[編號]功能_站位</p>
 
-    <div class="攻略列表" id="攻略列表"></div>
+<div class="攻略列表" id="攻略列表"></div>
 
-    <button class="返回按鈕 次要按鈕" onclick="返回選擇()">
-        返回選擇
-    </button>
+<button class="返回按鈕 次要按鈕" onclick="返回選擇()">
+    返回選擇
+</button>
 
-    <button class="返回按鈕" onclick="回首頁()">
-        返回首頁
-    </button>
+<button class="返回按鈕" onclick="回首頁()">
+    返回首頁
+</button>
 
-    <script>
-        // 取得上一頁傳來的資料
-        const 網址參數 = new URLSearchParams(window.location.search);
+<script>
+    // 取得上一頁傳來的資料
+    const 網址參數 = new URLSearchParams(window.location.search);
 
-        const 地圖名稱 = 網址參數.get("地圖") || "";
-        const 攻防名稱 = 網址參數.get("攻防") || "";
-        const 英雄名稱 = 網址參數.get("英雄") || "";
+    const 地圖名稱 = 網址參數.get("地圖") || "";
+    const 攻防名稱 = 網址參數.get("攻防") || "";
+    const 英雄名稱 = 網址參數.get("英雄") || "";
 
-        // 顯示目前選擇
-        document.getElementById("目前選擇").textContent =
-            `${地圖名稱}｜${攻防名稱}｜${英雄名稱}`;
-        // 讀取攻略資料
-        const 攻略列表 = document.getElementById("攻略列表");
-        fetch("攻略資料.json")
-            .then(回應 => 回應.json())
-            .then(攻略資料 => {
-                const 符合攻略 = 攻略資料[地圖名稱]?.[攻防名稱]?.[英雄名稱] || [];
+    // 顯示目前選擇
+    document.getElementById("目前選擇").textContent =
+        `${地圖名稱}｜${攻防名稱}｜${英雄名稱}`;
 
-                顯示攻略(符合攻略);
-            })
-            .catch(錯誤 => {
-                console.error("讀取攻略資料失敗：", 錯誤);
+    // 讀取攻略資料
+    const 攻略列表 = document.getElementById("攻略列表");
 
-                攻略列表.textContent = "攻略資料讀取失敗，請確認 JSON 檔案。";
-            });
+    fetch("攻略資料.json")
+        .then(回應 => {
+            if (!回應.ok) {
+                throw new Error("找不到攻略資料.json");
+            }
+
+            return 回應.json();
+        })
+        .then(攻略資料 => {
+            const 符合攻略 =
+                攻略資料[地圖名稱]?.[攻防名稱]?.[英雄名稱] || [];
+
+            顯示攻略(符合攻略);
+        })
+        .catch(錯誤 => {
+            console.error("讀取攻略資料失敗：", 錯誤);
+            攻略列表.textContent = "攻略資料讀取失敗，請確認 JSON 檔案。";
+        });
 
     function 顯示攻略(符合攻略) {
         if (符合攻略.length === 0) {
@@ -136,26 +179,37 @@
             return;
         }
 
-        // 分類 A 點與 B 點
-        const A點攻略 = 符合攻略.filter(名稱 => 名稱.startsWith("A點_"));
-        const B點攻略 = 符合攻略.filter(名稱 => 名稱.startsWith("B點_"));
+        // 依攻略名稱分類 A 點、中路、B 點
+        const A點攻略 = 符合攻略.filter(
+            名稱 => 名稱.startsWith("A點")
+        );
 
-        // 建立左右兩欄
-        const 左側 = document.createElement("div");
-        const 右側 = document.createElement("div");
+        const 中路攻略 = 符合攻略.filter(
+            名稱 => 名稱.startsWith("中路")
+        );
 
-        // 加上標題
-        const A點標題 = document.createElement("h2");
-        A點標題.textContent = "A 點";
+        const B點攻略 = 符合攻略.filter(
+            名稱 => 名稱.startsWith("B點")
+        );
 
-        const B點標題 = document.createElement("h2");
-        B點標題.textContent = "B 點";
 
-        左側.appendChild(A點標題);
-        右側.appendChild(B點標題);
+        // 建立三個欄位
+        function 建立欄位(標題文字) {
+            const 欄位 = document.createElement("div");
+            欄位.className = "攻略欄位";
 
-        攻略列表.appendChild(左側);
-        攻略列表.appendChild(右側);
+            const 標題 = document.createElement("h2");
+            標題.textContent = 標題文字;
+
+            欄位.appendChild(標題);
+            攻略列表.appendChild(欄位);
+
+            return 欄位;
+        }
+
+        const 左側 = 建立欄位("A 點");
+        const 中間 = 建立欄位("中路");
+        const 右側 = 建立欄位("B 點");
 
         // 建立攻略按鈕
         function 建立攻略按鈕(攻略名稱, 容器) {
@@ -184,22 +238,26 @@
         }
 
         建立攻略按鈕(A點攻略, 左側);
+        建立攻略按鈕(中路攻略, 中間);
         建立攻略按鈕(B點攻略, 右側);
     }
 
-        function 返回選擇() {
-            const 參數 = new URLSearchParams({
-                地圖: 地圖名稱
-            });
+    // 返回英雄與攻防選擇頁面
+    function 返回選擇() {
+        const 參數 = new URLSearchParams({
+            地圖: 地圖名稱
+        });
 
-            window.location.href =
-                "2_選擇英雄&攻防頁面.html?" + 參數.toString();
-        }
+        window.location.href =
+            "2_選擇英雄&攻防頁面.html?" + 參數.toString();
+    }
 
-        function 回首頁() {
-            window.location.href = "0_首頁.html";
-        }
-    </script>
+    // 返回首頁
+    function 回首頁() {
+        window.location.href = "0_首頁.html";
+    }
+</script>
+```
 
 </body>
 </html>

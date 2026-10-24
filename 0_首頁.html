@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -21,6 +20,26 @@
         .首頁 {
             text-align: center;
             padding: 20px;
+        }
+
+        /* 鼠鼠 */
+        .鼠鼠 {
+            font-size: 100px;
+            margin-bottom: 5px;
+            animation: 鼠鼠漂浮 2s ease-in-out infinite;
+            cursor: default;
+            user-select: none;
+        }
+
+        /* 鼠鼠漂浮動畫 */
+        @keyframes 鼠鼠漂浮 {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         h1 {
@@ -64,26 +83,51 @@
             background-color: #202b36;
             border-color: #ff4655;
         }
+
+        /* 手機版 */
+        @media (max-width: 480px) {
+            .鼠鼠 {
+                font-size: 80px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="首頁">
+
+        <div class="鼠鼠" title="鼠鼠陪你練 Line-up！">
+            🐭
+        </div>
+
         <h1>VALORANT</h1>
+
         <p>特戰英豪 Line-up 攻略網站</p>
 
-        <button onclick="選擇地圖()">選擇地圖</button>
+        <button onclick="選擇地圖()">
+            選擇地圖
+        </button>
 
         <button class="次要按鈕" onclick="選擇英雄()">
             選擇英雄
         </button>
+
     </div>
 
     <script>
         function 選擇地圖() {
             window.location.href = "1_選擇地圖頁面.html";
         }
+
         function 選擇英雄() {
             window.location.href = "2_選擇英雄頁面.html";
         }
