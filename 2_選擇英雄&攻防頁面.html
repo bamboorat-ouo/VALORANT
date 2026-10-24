@@ -1,0 +1,212 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇英雄與攻防｜特戰英豪 Line-up</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #111820;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            padding-top: 25px;
+            font-size: 36px;
+        }
+
+        .說明 {
+            color: #aab3bd;
+            margin-bottom: 10px;
+        }
+
+        .選擇區域 {
+            margin: 15px auto;
+        }
+
+        .攻防列表,
+        .英雄列表 {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .攻防卡片 {
+            width: 180px;
+            padding: 1px 5px;
+            background-color: #202b36;
+            border: 2px solid #394653;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .英雄卡片 {
+            width: 220px;
+            padding: 1px;
+            background-color: #202b36;
+            border: 2px solid #394653;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .狀態 {
+            color: #ff4655;
+            margin-top: 8px;
+            min-height: 24px;
+        }
+
+        .按鈕 {
+            margin: 15px 8px 25px;
+            padding: 12px 25px;
+            background-color: #ff4655;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .按鈕:hover {
+            background-color: #d93645;
+        }
+
+        .次要按鈕 {
+            background-color: transparent;
+            border: 1px solid #596570;
+        }
+
+        .次要按鈕:hover {
+            background-color: #202b36;
+        }
+        .英雄卡片 h2 {
+            font-size: 28px;
+            margin: 10px 0;
+        }
+        .已選擇 {
+            border-color: #ff4655;
+            background-color: #30232a;
+        }
+        .地圖名稱 {
+            color: #ff4655;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>選擇攻防與英雄</h1>
+
+    <div class="地圖名稱" id="地圖名稱"></div>
+
+    <!-- 選擇攻防：放在最上面 -->
+    <section class="選擇區域">
+        <h2>選擇攻防</h2>
+        <p class="說明">選擇要查詢的攻防方</p>
+
+        <div class="攻防列表">
+            <div class="攻防卡片" onclick="選擇攻防('攻擊方', this)">
+                <h2>⚔️ 攻擊方</h2>
+            </div>
+
+            <div class="攻防卡片" onclick="選擇攻防('防守方', this)">
+                <h2>🛡️ 防守方</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- 選擇英雄：放在攻防下面 -->
+    <section class="選擇區域">
+        <h2>選擇英雄</h2>
+        <p class="說明">選擇想查看 Line-up 的英雄</p>
+
+        <div class="英雄列表">
+            <div class="英雄卡片" onclick="選擇英雄('蘇法')">
+                <h2>蘇法</h2>
+                <p class="英文名稱">SOVA</p>
+                <p class="介紹">偵查與情報收集</p>
+            </div>
+
+            <div class="英雄卡片" onclick="選擇英雄('布史東')">
+                <h2>布史東</h2>
+                <p class="英文名稱">BRIMSTONE</p>
+                <p class="介紹">煙霧與戰術支援</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="狀態" id="狀態"></div>
+
+    <button class="按鈕 次要按鈕" onclick="返回地圖()">
+        返回選擇地圖
+    </button>
+
+    <button class="按鈕" onclick="回首頁()">
+        返回首頁
+    </button>
+
+    <script>
+        // 取得上一頁傳來的地圖
+        const 網址參數 = new URLSearchParams(window.location.search);
+        const 地圖名稱 = 網址參數.get("地圖");
+
+        // 記錄使用者的選擇
+        let 攻防名稱 = "";
+        let 英雄名稱 = "";
+
+        // 顯示目前地圖
+        document.getElementById("地圖名稱").textContent =
+            地圖名稱 ? "目前地圖：" + 地圖名稱 : "尚未選擇地圖";
+
+        // 選擇攻防
+        function 選擇攻防(選擇結果, 按鍵) {
+            攻防名稱 = 選擇結果;
+
+            document.querySelectorAll(".攻防卡片").forEach(卡片 => {
+                卡片.classList.remove("已選擇");
+            });
+
+            按鍵.classList.add("已選擇");
+
+            document.getElementById("狀態").textContent =
+                "已選擇：" + 攻防名稱;
+        }
+        // 選擇英雄
+        function 選擇英雄(選擇結果) {
+            if (!攻防名稱) {
+                alert("請先選擇攻擊方或防守方！");
+                return;
+            }
+
+            英雄名稱 = 選擇結果;
+
+            const 參數 = new URLSearchParams({
+                地圖: 地圖名稱 || "",
+                攻防: 攻防名稱,
+                英雄: 英雄名稱
+            });
+
+            window.location.href =
+                "3_點位選擇頁面.html?" + 參數.toString();
+        }
+
+        function 返回地圖() {
+            window.location.href = "1_選擇地圖頁面.html";
+        }
+
+        function 回首頁() {
+            window.location.href = "0_首頁.html";
+        }
+    </script>
+
+</body>
+</html>
+```

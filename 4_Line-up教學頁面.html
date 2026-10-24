@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line-up 教學</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #181a20;
+            color: white;
+            font-family: Arial, "Microsoft JhengHei", sans-serif;
+        }
+
+        .頁面 {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .標題區 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .標題區 h1 {
+            margin-bottom: 10px;
+            color: #ff4655;
+        }
+
+        .攻略名稱 {
+            color: #cccccc;
+            font-size: 16px;
+        }
+
+        /* 分類標題與 TXT 說明 */
+        .分類資訊 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .分類標題 {
+            flex-shrink: 0;
+            margin: 0;
+            padding-left: 12px;
+            border-left: 5px solid #ff4655;
+            color: #ff4655;
+            font-size: 26px;
+        }
+
+        .分類說明 {
+            color: #cccccc;
+            font-size: 16px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        /* 分類按鈕 */
+        .分類按鈕區 {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .分類按鈕 {
+            padding: 12px 28px;
+            border: 1px solid #444750;
+            border-radius: 8px;
+            background-color: #292c35;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .分類按鈕:hover {
+            background-color: #3b3f4a;
+        }
+
+        .分類按鈕.目前選擇 {
+            background-color: #ff4655;
+            border-color: #ff4655;
+        }
+
+        /* 圖片卡片 */
+        .圖片卡片 {
+            padding: 15px;
+            background-color: #252830;
+            border-radius: 10px;
+        }
+
+        .圖片標題 {
+            margin: 0 0 15px;
+            color: #ff4655;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .輪播區 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .圖片容器 {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .教學圖片 {
+            display: block;
+            width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        /* 圖片切換按鈕 */
+        .切換按鈕 {
+            flex-shrink: 0;
+            width: 48px;
+            height: 60px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3b3f4a;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .切換按鈕:hover {
+            background-color: #ff4655;
+        }
+
+        .切換按鈕:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .圖片進度 {
+            margin-top: 15px;
+            color: #cccccc;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .提示文字 {
+            text-align: center;
+            color: #aaaaaa;
+            margin-top: 25px;
+            line-height: 1.6;
+        }
+
+        /* 返回按鈕 */
+        .返回按鈕 {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3b3f4a;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .返回按鈕:hover {
+            background-color: #505563;
+        }
+
+        /* 手機版 */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .分類資訊 {
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .分類標題 {
+                font-size: 22px;
+            }
+
+            .分類說明 {
+                font-size: 14px;
+            }
+
+            .分類按鈕 {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+
+            .圖片卡片 {
+                padding: 10px;
+            }
+
+            .輪播區 {
+                gap: 6px;
+            }
+
+            .切換按鈕 {
+                width: 36px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .教學圖片 {
+                max-height: 60vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="頁面">
+
+        <!-- 頁面標題 -->
+        <div class="標題區">
+            <h1>Line-up 教學</h1>
+            <div class="攻略名稱" id="攻略名稱">
+                正在載入攻略資料……
+            </div>
+        </div>
+
+        <!-- 分類標題與說明 -->
+        <div class="分類資訊">
+            <h2 class="分類標題" id="分類標題">落點</h2>
+            <div class="分類說明" id="分類說明"></div>
+        </div>
+
+        <!-- 分類按鈕 -->
+        <div class="分類按鈕區">
+            <button class="分類按鈕 目前選擇" data-分類="落點">
+                落點
+            </button>
+
+            <button class="分類按鈕" data-分類="佔位">
+                站位
+            </button>
+
+            <button class="分類按鈕" data-分類="瞄準">
+                瞄準
+            </button>
+        </div>
+
+        <!-- 圖片輪播 -->
+        <div class="圖片卡片">
+            <h2 class="圖片標題" id="圖片標題">落點教學</h2>
+
+            <div class="輪播區">
+                <button
+                    class="切換按鈕"
+                    id="上一張"
+                    aria-label="上一張圖片"
+                >❮</button>
+
+                <div class="圖片容器">
+                    <img
+                        class="教學圖片"
+                        id="教學圖片"
+                        alt="Line-up 教學圖片"
+                        hidden
+                    >
+
+                    <div class="圖片進度" id="圖片進度"></div>
+                </div>
+
+                <button
+                    class="切換按鈕"
+                    id="下一張"
+                    aria-label="下一張圖片"
+                >❯</button>
+            </div>
+        </div>
+
+        <p class="提示文字" id="提示文字"></p>
+
+        <a
+            href="3_點位選擇頁面.html"
+            class="返回按鈕"
+            id="返回攻略列表"
+        >返回攻略列表</a>
+
+    </div>
+
+    <script>
+        // 取得上一頁傳來的資料
+        const 網址參數 = new URLSearchParams(window.location.search);
+
+        const 地圖名稱 = 網址參數.get("地圖") || "";
+        const 攻防名稱 = 網址參數.get("攻防") || "";
+        const 英雄名稱 = 網址參數.get("英雄") || "";
+        const 攻略名稱 = 網址參數.get("攻略") || "";
+
+        // 取得網頁元素
+        const 攻略名稱區 = document.getElementById("攻略名稱");
+        const 分類標題 = document.getElementById("分類標題");
+        const 分類說明區 = document.getElementById("分類說明");
+        const 圖片標題 = document.getElementById("圖片標題");
+        const 教學圖片 = document.getElementById("教學圖片");
+        const 圖片進度 = document.getElementById("圖片進度");
+        const 提示文字 = document.getElementById("提示文字");
+        const 上一張按鈕 = document.getElementById("上一張");
+        const 下一張按鈕 = document.getElementById("下一張");
+        const 分類按鈕 = document.querySelectorAll(".分類按鈕");
+
+        // 記錄目前瀏覽的分類、圖片編號及圖片總數
+        let 目前分類 = "落點";
+        let 目前編號 = 1;
+        let 圖片總數 = 0;
+
+        // 顯示攻略名稱
+        攻略名稱區.textContent = 攻略名稱 || "尚未指定攻略";
+
+        // 組合目前分類的資料夾路徑
+        function 取得資料夾路徑() {
+            const 路徑 = [
+                "攻略清單",
+                地圖名稱,
+                攻防名稱,
+                英雄名稱,
+                攻略名稱,
+                目前分類
+            ];
+
+            return 路徑.map(部分 => encodeURIComponent(部分)).join("/") + "/";
+        }
+
+        // 取得指定編號的圖片路徑
+        function 取得圖片路徑(編號) {
+            return `${取得資料夾路徑()}${編號}.jpg`;
+        }
+
+        // 自動讀取目前分類的說明.txt
+        async function 讀取分類說明(分類) {
+            const 說明區 = document.getElementById("分類說明");
+
+            // 先清除上一個分類的說明
+            說明區.textContent = "";
+
+            const 說明路徑 =
+                `${取得資料夾路徑()}說明.txt`;
+
+            try {
+                const 回應 = await fetch(說明路徑, {
+                    cache: "no-store"
+                });
+
+                // 找不到 TXT 就不顯示說明
+                if (!回應.ok) {
+                    return;
+                }
+
+                const 說明內容 = await 回應.text();
+
+                // 防止讀取期間切換到其他分類後顯示錯誤內容
+                if (目前分類 !== 分類) {
+                    return;
+                }
+
+                說明區.textContent = 說明內容.trim();
+            } catch (錯誤) {
+                // TXT 不存在或無法讀取時，保持空白
+                if (目前分類 === 分類) {
+                    說明區.textContent = "";
+                }
+            }
+        }
+
+        // 測試指定圖片是否存在
+        function 檢查圖片(路徑) {
+            return new Promise(完成 => {
+                const 測試圖片 = new Image();
+
+                測試圖片.onload = () => 完成(true);
+                測試圖片.onerror = () => 完成(false);
+
+                測試圖片.src = 路徑;
+            });
+        }
+
+        // 依序尋找圖片，直到遇到不存在的編號
+        async function 尋找圖片數量() {
+            let 數量 = 0;
+
+            // 最多檢查 100 張，避免無限搜尋
+            for (let 編號 = 1; 編號 <= 100; 編號++) {
+                const 存在 = await 檢查圖片(取得圖片路徑(編號));
+
+                if (!存在) {
+                    break;
+                }
+
+                數量++;
+            }
+
+            return 數量;
+        }
+
+        // 顯示目前編號的圖片
+        function 更新圖片() {
+            if (圖片總數 === 0) {
+                教學圖片.hidden = true;
+                圖片進度.textContent = "";
+                上一張按鈕.disabled = true;
+                下一張按鈕.disabled = true;
+                return;
+            }
+
+            教學圖片.src = 取得圖片路徑(目前編號);
+            教學圖片.alt = `${目前分類} 第 ${目前編號} 張圖片`;
+            教學圖片.hidden = false;
+
+            圖片進度.textContent = `${目前編號} / ${圖片總數}`;
+
+            // 只有一張圖片時，不需要切換
+            上一張按鈕.disabled = 圖片總數 <= 1;
+            下一張按鈕.disabled = 圖片總數 <= 1;
+        }
+
+        // 切換分類並重新讀取說明與圖片
+        async function 顯示圖片(分類) {
+            目前分類 = 分類;
+            目前編號 = 1;
+            圖片總數 = 0;
+
+            // 更新分類標題
+            分類標題.textContent =
+                分類 === "佔位" ? "站位" : 分類;
+
+            // 更新分類按鈕外觀
+            分類按鈕.forEach(按鈕 => {
+                按鈕.classList.toggle(
+                    "目前選擇",
+                    按鈕.dataset.分類 === 分類
+                );
+            });
+
+            // 更新圖片區標題
+            圖片標題.textContent =
+                `${分類 === "佔位" ? "站位" : 分類} 教學`;
+
+            // 顯示載入狀態
+            教學圖片.hidden = true;
+            圖片進度.textContent = "";
+            提示文字.textContent = "正在載入圖片……";
+            上一張按鈕.disabled = true;
+            下一張按鈕.disabled = true;
+
+            // 讀取這個分類的說明.txt
+            讀取分類說明(分類);
+
+            // 尋找這個分類有幾張圖片
+            const 這次分類 = 分類;
+            const 找到數量 = await 尋找圖片數量();
+
+            // 如果載入期間已切換分類，就不使用舊結果
+            if (目前分類 !== 這次分類) {
+                return;
+            }
+
+            圖片總數 = 找到數量;
+
+            if (圖片總數 === 0) {
+                提示文字.textContent =
+                    "找不到圖片，請確認資料夾路徑、圖片名稱及副檔名。";
+
+                更新圖片();
+                return;
+            }
+
+            提示文字.textContent = "";
+            更新圖片();
+        }
+
+        // 上一張：第一張循環回最後一張
+        上一張按鈕.addEventListener("click", function () {
+            if (圖片總數 <= 1) return;
+
+            目前編號--;
+
+            if (目前編號 < 1) {
+                目前編號 = 圖片總數;
+            }
+
+            更新圖片();
+        });
+
+        // 下一張：最後一張循環回第一張
+        下一張按鈕.addEventListener("click", function () {
+            if (圖片總數 <= 1) return;
+
+            目前編號++;
+
+            if (目前編號 > 圖片總數) {
+                目前編號 = 1;
+            }
+
+            更新圖片();
+        });
+
+        // 點擊分類按鈕
+        分類按鈕.forEach(按鈕 => {
+            按鈕.addEventListener("click", function () {
+                顯示圖片(this.dataset.分類);
+            });
+        });
+
+        // 返回攻略列表時保留原本的選擇
+        const 返回參數 = new URLSearchParams({
+            地圖: 地圖名稱,
+            攻防: 攻防名稱,
+            英雄: 英雄名稱
+        });
+
+        document.getElementById("返回攻略列表").href =
+            "3_點位選擇頁面.html?" + 返回參數.toString();
+
+        // 檢查必要參數
+        if (!地圖名稱 || !攻防名稱 || !英雄名稱 || !攻略名稱) {
+            攻略名稱區.textContent = "缺少攻略資料";
+
+            提示文字.textContent =
+                "請從攻略列表進入此頁面，確認上一頁有正確傳遞資料。";
+        } else {
+            顯示圖片(目前分類);
+        }
+    </script>
+</body>
+</html>

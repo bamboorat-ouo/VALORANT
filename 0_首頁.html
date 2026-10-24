@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特戰英豪 Line-up</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #111820;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .首頁 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #aab3bd;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+
+        button {
+            display: block;
+            width: 240px;
+            margin: 15px auto;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #ff4655;
+            border: 2px solid #ff4655;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: #d93645;
+            border-color: #d93645;
+            transform: scale(1.05);
+        }
+
+        .次要按鈕 {
+            background-color: transparent;
+            border-color: #596570;
+        }
+
+        .次要按鈕:hover {
+            background-color: #202b36;
+            border-color: #ff4655;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="首頁">
+        <h1>VALORANT</h1>
+        <p>特戰英豪 Line-up 攻略網站</p>
+
+        <button onclick="選擇地圖()">選擇地圖</button>
+
+        <button class="次要按鈕" onclick="選擇英雄()">
+            選擇英雄
+        </button>
+    </div>
+
+    <script>
+        function 選擇地圖() {
+            window.location.href = "1_選擇地圖頁面.html";
+        }
+        function 選擇英雄() {
+            window.location.href = "2_選擇英雄頁面.html";
+        }
+    </script>
+
+</body>
+</html>

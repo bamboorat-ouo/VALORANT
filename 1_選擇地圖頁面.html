@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇地圖｜特戰英豪 Line-up</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #111820;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            padding-top: 40px;
+            font-size: 36px;
+        }
+
+        .說明 {
+            color: #aab3bd;
+            margin-bottom: 35px;
+        }
+
+        .地圖列表 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .地圖卡片 {
+            padding: 35px 15px;
+            background-color: #202b36;
+            border: 2px solid #394653;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .地圖卡片:hover {
+            border-color: #ff4655;
+            transform: translateY(-5px);
+        }
+
+        .地圖卡片 h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+
+        .地圖卡片 p {
+            margin: 0;
+            color: #aab3bd;
+        }
+
+        .返回按鈕 {
+            margin: 20px auto 40px;
+            padding: 12px 30px;
+            background-color: #ff4655;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .返回按鈕:hover {
+            background-color: #d93645;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>選擇地圖</h1>
+    <p class="說明">選擇想查詢 Line-up 的地圖</p>
+
+    <div class="地圖列表">
+        <div class="地圖卡片" onclick="選擇地圖('深海遺珠')">
+            <h2>深海遺珠</h2>
+            <p>?</p>
+        </div>
+<!-- 
+        <div class="地圖卡片" onclick="選擇地圖('亞海懸城')">
+            <h2>亞海懸城</h2>
+            <p>ASCENT</p>
+        </div>
+
+        <div class="地圖卡片" onclick="選擇地圖('蓮華古城')">
+            <h2>蓮華古城</h2>
+            <p>LOTUS</p>
+        </div>
+
+        <div class="地圖卡片" onclick="選擇地圖('日落之城')">
+            <h2>日落之城</h2>
+            <p>SUNSET</p>
+        </div> -->
+<!-- 
+        <div class="地圖卡片" onclick="選擇地圖('深窟幽境')">
+            <h2>深窟幽境</h2>
+            <p>ABYSS</p>
+        </div> -->
+
+
+    </div>
+
+    <button class="返回按鈕" onclick="回首頁()">返回首頁</button>
+
+    <script>
+        function 選擇地圖(地圖名稱) {
+            window.location.href =
+                "2_選擇英雄&攻防頁面.html?地圖=" + encodeURIComponent(地圖名稱);
+        }
+
+        function 回首頁() {
+            window.location.href = "0_首頁.html";
+        }
+    </script>
+
+</body>
+</html>
